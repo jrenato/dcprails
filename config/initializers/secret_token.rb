@@ -24,4 +24,4 @@ def secure_token
   end
 end
 
-Decaprails::Application.config.secret_key_base = secure_token
+Dcprails::Application.config.secret_key_base = secure_token
