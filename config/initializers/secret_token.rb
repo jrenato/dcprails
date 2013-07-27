@@ -9,4 +9,19 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Decaprails::Application.config.secret_key_base = 'de48c691a9aeacec04e05defb400656c388c7d75b77babb1a13ea0acc39088c06f7c2781bed173c6a61883a2609d851e7c85e463d7f32b19b29babf8e8f19995'
+require 'securerandom'
+
+def secure_token
+  token_file = Rails.root.join('.secret')
+  if File.exist?(token_file)
+    # Use the existing token.
+    File.read(token_file).chomp
+  else
+    # Generate a new token and store it in token_file.
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
+
+Decaprails::Application.config.secret_key_base = secure_token
